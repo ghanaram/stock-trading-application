@@ -1,0 +1,69 @@
+<br>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Enter Trades Details:</mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <br>
+  <mat-card-content>
+  <form [formGroup]="tradeForm" >
+
+<div class="row">
+  <div class="col mb 4">
+    <mat-form-field appearance="outline" class="width">
+      <input matInput type="datetime-local" formControlName="tradeDateTime" placeholder="Trade Date/Time" value="{{tradeDateTime| date:'yyyy-MM-ddThh:mm'}}">
+    </mat-form-field>
+  </div>
+  <div class="col mb 4" >
+    <mat-form-field appearance="outline" class="width">
+      <input matInput formControlName="stockName" placeholder="Stock Name (Symbol)" value="{{stockName}}">
+    </mat-form-field>
+  </div>
+  <div class="col mb 4">
+    <mat-form-field appearance="outline" class="width">
+      <input matInput type="number" formControlName="listingPrice" placeholder="Listing Price" value="{{listingPrice}}">
+    </mat-form-field>
+  </div>
+</div>
+<div class="row">
+  <div class="col mb 4">
+    <mat-form-field appearance="outline" class="width">
+      <input matInput type="number" formControlName="quantity" placeholder="Quantity" value="{{quantity}}">
+    </mat-form-field>
+  </div>
+  <div class="col mb 4">
+    <mat-form-field appearance="outline" class="width">
+      <mat-select formControlName="type" placeholder="Type" value="{{type}}">
+        <mat-option value="buy">Buy</mat-option>
+        <mat-option value="sell">Sell</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="col mb 4">
+    <mat-form-field appearance="outline" class="width">
+      <input matInput type="number" formControlName="pricePerUnit" placeholder="Price per Unit" value="{{pricePerUnit}}">
+    </mat-form-field>
+  </div>
+</div>
+
+  <button *ngIf="!tradesId"  mat-raised-button color="primary" type="submit" (click)="onSubmit()" >Add Trade</button>
+  <button  *ngIf="tradesId" mat-raised-button color="warn" type="submit" (click)="upTrade()">Update Trade</button>
+
+  </form>
+
+  <mat-list *ngIf="trades && trades.length > 0">
+    <mat-list-item *ngFor="let trade of trades;">
+      {{ trade.tradeDateTime | date }} - {{ trade.stockName }} - {{ trade.type }} - {{ trade.pricePerUnit }}
+      <button mat-icon-button (click)="tradeId(trade.id)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="deleteTrade(trade.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-raised-button color="primary" (click)="createOrders(trade)">Create Order</button>
+    </mat-list-item>
+  </mat-list>
+</mat-card-content>
+</mat-card>
+
